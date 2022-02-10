@@ -15,7 +15,7 @@ Before continuing with the scenario, ensure that you have set up the [prerequisi
 Set the tutorial directory for this tutorial under the directory you downloaded the tutorial files:
 
 ```
-export TUTORIAL_HOME=<Tutorial directory>/security/internal_external-tls_mtls_confluent-rbac
+export TUTORIAL_HOME=/home/daniel/confluent-kubernetes-examples/security/internal_external-tls_mtls_confluent-rbac
 ```
   
 ## Deploy Confluent for Kubernetes
@@ -186,14 +186,17 @@ kubectl create secret generic mds-token \
 kubectl create secret generic mds-client \
   --from-file=bearer.txt=$TUTORIAL_HOME/kafka-client.txt \
   --namespace confluent
+
 # Control Center RBAC credential
 kubectl create secret generic c3-mds-client \
   --from-file=bearer.txt=$TUTORIAL_HOME/c3-mds-client.txt \
   --namespace confluent
+
 # Connect RBAC credential
 kubectl create secret generic connect-mds-client \
   --from-file=bearer.txt=$TUTORIAL_HOME/connect-mds-client.txt \
   --namespace confluent
+  
 # Schema Registry RBAC credential
 kubectl create secret generic sr-mds-client \
   --from-file=bearer.txt=$TUTORIAL_HOME/sr-mds-client.txt \
@@ -312,10 +315,11 @@ ingress-nginx-controller             LoadBalancer   10.98.82.133   104.197.186.1
 
 | DNS name | IP address |
 | -------- | ---------- |
-| controlcenter.aksdomain.xyz | The `EXTERNAL-IP` value of the ingress load balancer service |
-| connect.aksdomain.xyz | The `EXTERNAL-IP` value of the ingress load balancer service |
-| ksqldb.aksdomain.xyz | The `EXTERNAL-IP` value of the ingress load balancer service |
-| mds.aksdomain.xyz | The `EXTERNAL-IP` value of the ingress load balancer service |
+| *.mtls.aksdomain.xyz | The `EXTERNAL-IP` value of the ingress load balancer service |
+| kakfa.aksdomain.xyz | The `EXTERNAL-IP` value of the kafka-bootstrap-lb load balancer service |
+| b0.aksdomain.xyz | The `EXTERNAL-IP` value of the kafka-0-lb load balancer service |
+| b1.aksdomain.xyz | The `EXTERNAL-IP` value of the kafka-1-lb load balancer service |
+| b2.aksdomain.xyz | The `EXTERNAL-IP` value of the kafka-2-lb load balancer service |
 
 ## Validate
 

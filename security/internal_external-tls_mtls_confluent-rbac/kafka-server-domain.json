@@ -1,7 +1,10 @@
 {
   "CN": "kafka",
   "hosts": [
-    "*.aksdomain.xyz"
+    "kafka",
+    "*.aksdomain.xyz",
+    "kafka.confluent.svc.cluster.local",
+    "*.kafka.confluent.svc.cluster.local"
   ],
   "key": {
     "algo": "rsa",
