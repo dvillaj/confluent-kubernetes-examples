@@ -413,6 +413,41 @@ keytool -list -v -keystore $TUTORIAL_HOME/kafka.client.truststore.jks -storepass
 ```
 
 
+## Other CA
+
+openssl genrsa -out $TUTORIAL_HOME/OtherExternalRootCAkey.pem 2048
+
+openssl req -x509  -new -nodes \
+  -key $TUTORIAL_HOME/OtherExternalRootCAkey.pem \
+  -days 3650 \
+  -out $TUTORIAL_HOME/OtherExternalCacerts.pem \
+  -subj "/C=US/ST=CA/L=MVT/O=TestOrg/OU=Cloud/CN=TestCA"
+
+openssl x509 \
+  -req \
+  -in $TUTORIAL_HOME/testadmin.csr \
+  -CA  $TUTORIAL_HOME/OtherExternalCacerts.pem \
+  -CAkey $TUTORIAL_HOME/OtherExternalRootCAkey.pem \
+  -CAcreateserial \
+  -days 365 \
+  -out $TUTORIAL_HOME/othertestadmin.crt
+
+openssl x509 -in $TUTORIAL_HOME/othertestadmin.crt -text -noout
+
+openssl pkcs12 -export -in $TUTORIAL_HOME/othertestadmin.crt \
+   -inkey $TUTORIAL_HOME/testadmin.key \
+   -name testadmin \
+   -passout pass:pass123 \
+   > client.p12
+
+keytool -importkeystore -srckeystore client.p12 -destkeystore $TUTORIAL_HOME/kafka.client.other.testadmin.keystore.jks -srcstoretype pkcs12 -alias testadmin -storepass pass123 -srcstorepass pass123
+
+keytool -list -v -keystore $TUTORIAL_HOME/kafka.client.other.testadmin.keystore.jks -storepass pass123
+
+keytool -keystore $TUTORIAL_HOME/kafka.client.other.truststore.jks -alias CARoot -import -file $TUTORIAL_HOME/OtherExternalCacerts.pem -storepass pass123  -noprompt
+
+keytool -list -v -keystore $TUTORIAL_HOME/kafka.client.other.truststore.jks -storepass pass123
+
 ## Tear down
 
 ```
