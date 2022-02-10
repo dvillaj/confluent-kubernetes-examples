@@ -369,6 +369,50 @@ confluent login \
 
 ```
 
+
+## Client Certificate - testadmin
+
+```
+openssl genrsa \
+  -out $TUTORIAL_HOME/testadmin.key 2048
+
+openssl req \
+  -new \
+  -key $TUTORIAL_HOME/testadmin.key \
+  -subj '/CN=testadmin' \
+  -out $TUTORIAL_HOME/testadmin.csr
+
+openssl x509 \
+  -req \
+  -in $TUTORIAL_HOME/testadmin.csr \
+  -CA  $TUTORIAL_HOME/externalCacerts.pem \
+  -CAkey $TUTORIAL_HOME/externalRootCAkey.pem \
+  -CAcreateserial \
+  -days 365 \
+  -out $TUTORIAL_HOME/testadmin.crt
+
+openssl x509 -in $TUTORIAL_HOME/testadmin.crt -text -noout  
+```
+
+## Client JKS - testadmin
+
+```
+openssl pkcs12 -export -in $TUTORIAL_HOME/testadmin.crt \
+   -inkey $TUTORIAL_HOME/testadmin.key \
+   -name testadmin \
+   -passout pass:pass123 \
+   > client.p12
+
+keytool -importkeystore -srckeystore client.p12 -destkeystore $TUTORIAL_HOME/kafka.client.testadmin.keystore.jks -srcstoretype pkcs12 -alias testadmin -storepass pass123 -srcstorepass pass123
+
+keytool -list -v -keystore $TUTORIAL_HOME/kafka.client.testadmin.keystore.jks -storepass pass123
+
+keytool -keystore $TUTORIAL_HOME/kafka.client.truststore.jks -alias CARoot -import -file $TUTORIAL_HOME/externalCacerts.pem -storepass pass123  -noprompt
+
+keytool -list -v -keystore $TUTORIAL_HOME/kafka.client.truststore.jks -storepass pass123
+```
+
+
 ## Tear down
 
 ```
