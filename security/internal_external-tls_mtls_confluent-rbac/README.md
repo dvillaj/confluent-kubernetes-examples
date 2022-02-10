@@ -218,6 +218,8 @@ Deploy Confluent Platform:
 
 ```
 kubectl apply -f $TUTORIAL_HOME/confluent-platform-mtls-rbac.yaml --namespace confluent
+
+kubectl apply -f $TUTORIAL_HOME/topics.yaml --namespace confluent
 ```
 
 Check that all Confluent Platform resources are deployed:
@@ -413,8 +415,9 @@ keytool -list -v -keystore $TUTORIAL_HOME/kafka.client.truststore.jks -storepass
 ```
 
 
-## Other CA
+## User testadmin - Other CA
 
+```
 openssl genrsa -out $TUTORIAL_HOME/OtherExternalRootCAkey.pem 2048
 
 openssl req -x509  -new -nodes \
@@ -443,6 +446,7 @@ openssl pkcs12 -export -in $TUTORIAL_HOME/othertestadmin.crt \
 keytool -importkeystore -srckeystore client.p12 -destkeystore $TUTORIAL_HOME/kafka.client.other.testadmin.keystore.jks -srcstoretype pkcs12 -alias testadmin -storepass pass123 -srcstorepass pass123
 
 keytool -list -v -keystore $TUTORIAL_HOME/kafka.client.other.testadmin.keystore.jks -storepass pass123
+```
 
 ## Tear down
 

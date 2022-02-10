@@ -1,0 +1,15 @@
+apiVersion: platform.confluent.io/v1beta1
+kind: KafkaTopic
+metadata:
+  name: sanes.libcom.userexample
+  namespace: confluent
+  finalizers:
+    - kafkatopic.finalizers.platform.confluent.io
+spec:
+  configs:
+    cleanup.policy: delete
+  kafkaRestClassRef:
+    name: default
+    namespace: confluent
+  partitionCount: 1
+  replicas: 3
