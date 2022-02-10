@@ -444,10 +444,6 @@ keytool -importkeystore -srckeystore client.p12 -destkeystore $TUTORIAL_HOME/kaf
 
 keytool -list -v -keystore $TUTORIAL_HOME/kafka.client.other.testadmin.keystore.jks -storepass pass123
 
-keytool -keystore $TUTORIAL_HOME/kafka.client.other.truststore.jks -alias CARoot -import -file $TUTORIAL_HOME/OtherExternalCacerts.pem -storepass pass123  -noprompt
-
-keytool -list -v -keystore $TUTORIAL_HOME/kafka.client.other.truststore.jks -storepass pass123
-
 ## Tear down
 
 ```
