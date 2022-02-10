@@ -12,7 +12,6 @@ spec:
     - hosts:
       - mds.mtls.aksdomain.xyz
       - controlcenter.mtls.aksdomain.xyz
-      - c3.mtls.aksdomain.xyz
       - ksqldb.mtls.aksdomain.xyz
       - connect.mtls.aksdomain.xyz
       - schema-registry.mtls.aksdomain.xyz      
@@ -32,14 +31,7 @@ spec:
         paths:
           - backend:
               serviceName: controlcenter-0-internal
-              servicePort: 9021
-
-    - host: c3.mtls.aksdomain.xyz
-      http:
-        paths:
-          - backend:
-              serviceName: controlcenter-0-internal
-              servicePort: 9021              
+              servicePort: 9021        
 
     - host: ksqldb.mtls.aksdomain.xyz
       http:
