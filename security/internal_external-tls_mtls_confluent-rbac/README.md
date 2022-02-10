@@ -220,6 +220,7 @@ Deploy Confluent Platform:
 kubectl apply -f $TUTORIAL_HOME/confluent-platform-mtls-rbac.yaml --namespace confluent
 
 kubectl apply -f $TUTORIAL_HOME/topics.yaml --namespace confluent
+kubectl apply -f $TUTORIAL_HOME/testadmin-topic-roles.yaml --namespace confluent
 ```
 
 Check that all Confluent Platform resources are deployed:

@@ -1,0 +1,30 @@
+apiVersion: platform.confluent.io/v1beta1
+kind: ConfluentRolebinding
+metadata:
+  name: testadmin-rb-topic-sanes.libcom.userexample
+  namespace: confluent
+spec:
+  principal:
+    type: user
+    name: testadmin
+  role: ResourceOwner
+  resourcePatterns:
+    - name: sanes.libcom.userexample
+      patternType: LITERAL
+      resourceType: Topic
+# confluent-v1 iam rolebinding create --principal User:$USER_CLIENT_A --role ResourceOwner --resource Topic:$TOPIC1 --kafka-cluster-id $KAFKA_CLUSTER_ID
+---
+apiVersion: platform.confluent.io/v1beta1
+kind: ConfluentRolebinding
+metadata:
+  name: testadmin-rb-consumer-group-user-group
+  namespace: confluent
+spec:
+  principal:
+    type: user
+    name: testadmin
+  role: DeveloperRead
+  resourcePatterns:
+    - name: user-group
+      patternType: PREFIXED
+      resourceType: Group
