@@ -20,6 +20,12 @@ export TUTORIAL_HOME=<Tutorial directory>/security/internal_external-tls_mtls_co
   
 ## Deploy Confluent for Kubernetes
 
+Create Confluent namespace:
+
+```
+kubectl create namespace confluent
+```
+
 Set up the Helm Chart:
 
 ```
@@ -309,6 +315,7 @@ ingress-nginx-controller             LoadBalancer   10.98.82.133   104.197.186.1
 | controlcenter.aksdomain.xyz | The `EXTERNAL-IP` value of the ingress load balancer service |
 | connect.aksdomain.xyz | The `EXTERNAL-IP` value of the ingress load balancer service |
 | ksqldb.aksdomain.xyz | The `EXTERNAL-IP` value of the ingress load balancer service |
+| mds.aksdomain.xyz | The `EXTERNAL-IP` value of the ingress load balancer service |
 
 ## Validate
 
@@ -343,6 +350,12 @@ Use curl to access ksqldb cluster status. Provide the certificates you created t
 curl -sX GET "https://ksqldb.aksdomain.xyz:443/clusterStatus" --cacert $TUTORIAL_HOME/externalCacerts.pem --key $TUTORIAL_HOME/kafka-server-key.pem --cert $TUTORIAL_HOME/kafka-server.pem
 ```
 
+### Install confluent client
+```
+curl -sL --http1.1 https://cnfl.io/cli | sh -s -- latest
+sudo mv confluent /usr/local/bin
+```
+
 ### Validate MDS Access
 
 ```
@@ -370,6 +383,8 @@ kubectl delete secret tls-kafka --namespace confluent
 helm delete test-ldap --namespace confluent
 
 helm delete operator --namespace confluent
+
+kubectl delete namespace confluent
 ```
 
 ## Appendix: Troubleshooting
