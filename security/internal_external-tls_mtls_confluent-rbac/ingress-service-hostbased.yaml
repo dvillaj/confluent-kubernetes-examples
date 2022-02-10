@@ -10,33 +10,33 @@ metadata:
 spec:
   tls:
     - hosts:
-      - mds.mydomain.com
-      - controlcenter.mydomain.com
-      - ksqldb.mydomain.com
-      - connect.mydomain.com
+      - mds.aksdomain.xyz
+      - controlcenter.aksdomain.xyz
+      - ksqldb.aksdomain.xyz
+      - connect.aksdomain.xyz
       # This assumes tls-secret exists and the SSL
-      # certificate contains a CN for mydomain.com
+      # certificate contains a CN for aksdomain.xyz
       secretName: tls-nginx-cert
   rules:
-    - host: mds.mydomain.com
+    - host: mds.aksdomain.xyz
       http:
         paths:
           - backend:
               serviceName: mds-bootstrap
               servicePort: 8090
-    - host: controlcenter.mydomain.com
+    - host: controlcenter.aksdomain.xyz
       http:
         paths:
           - backend:
               serviceName: controlcenter-0-internal
               servicePort: 9021
-    - host: ksqldb.mydomain.com
+    - host: ksqldb.aksdomain.xyz
       http:
         paths:
           - backend:
               serviceName: ksqldb-bootstrap
               servicePort: 8088
-    - host: connect.mydomain.com
+    - host: connect.aksdomain.xyz
       http:
         paths:
           - backend:

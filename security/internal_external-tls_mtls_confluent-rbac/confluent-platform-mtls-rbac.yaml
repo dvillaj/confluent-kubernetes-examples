@@ -51,7 +51,7 @@ spec:
       externalAccess:
         type: loadBalancer
         loadBalancer:
-          domain: mydomain.com
+          domain: aksdomain.xyz
           brokerPrefix: b
           bootstrapPrefix: kafka
   authorization:

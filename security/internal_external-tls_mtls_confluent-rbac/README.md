@@ -284,7 +284,7 @@ kubectl apply -f $TUTORIAL_HOME/mds-bootstrap-service.yaml
 Create an Ingress resource that includes a collection of rules that the Ingress controller uses to route the inbound 
 traffic to each Confluent Platform component. These will point to the bootstrap services created above.
 
-In the resource file, `$TUTORIAL_HOME/ingress-service-hostbased.yaml`, replace `mydomain.com` with the value of your
+In the resource file, `$TUTORIAL_HOME/ingress-service-hostbased.yaml`, replace `aksdomain.xyz` with the value of your
 external domain.
 
 ```
@@ -306,9 +306,9 @@ ingress-nginx-controller             LoadBalancer   10.98.82.133   104.197.186.1
 
 | DNS name | IP address |
 | -------- | ---------- |
-| controlcenter.mydomain.com | The `EXTERNAL-IP` value of the ingress load balancer service |
-| connect.mydomain.com | The `EXTERNAL-IP` value of the ingress load balancer service |
-| ksqldb.mydomain.com | The `EXTERNAL-IP` value of the ingress load balancer service |
+| controlcenter.aksdomain.xyz | The `EXTERNAL-IP` value of the ingress load balancer service |
+| connect.aksdomain.xyz | The `EXTERNAL-IP` value of the ingress load balancer service |
+| ksqldb.aksdomain.xyz | The `EXTERNAL-IP` value of the ingress load balancer service |
 
 ## Validate
 
@@ -340,14 +340,14 @@ You should be able to access the REST endpoint over the external domain name.
 Use curl to access ksqldb cluster status. Provide the certificates you created to authenticate:
 
 ```
-curl -sX GET "https://ksqldb.mydomain.com:443/clusterStatus" --cacert $TUTORIAL_HOME/externalCacerts.pem --key $TUTORIAL_HOME/kafka-server-key.pem --cert $TUTORIAL_HOME/kafka-server.pem
+curl -sX GET "https://ksqldb.aksdomain.xyz:443/clusterStatus" --cacert $TUTORIAL_HOME/externalCacerts.pem --key $TUTORIAL_HOME/kafka-server-key.pem --cert $TUTORIAL_HOME/kafka-server.pem
 ```
 
 ### Validate MDS Access
 
 ```
 confluent login \
- --url https://mds.mydomain.com \
+ --url https://mds.aksdomain.xyz \
  --ca-cert-path $TUTORIAL_HOME/externalCacerts.pem
 
 ```

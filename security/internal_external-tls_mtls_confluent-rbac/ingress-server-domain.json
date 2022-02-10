@@ -1,7 +1,7 @@
 {
   "CN": "ingress",
   "hosts": [
-    "*.mydomain.com"
+    "*.aksdomain.xyz"
   ],
   "key": {
     "algo": "rsa",
