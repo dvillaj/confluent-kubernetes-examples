@@ -394,8 +394,8 @@ openssl x509 \
   -days 365 \
   -out $TUTORIAL_HOME/testadmin.crt
 
-openssl x509 -in $TUTORIAL_HOME/testadmin.crt -text -noout  
-```
+openssl x509 -in $TUTORIAL_HOME/testadmin.crt -text -noout 
+``` 
 
 ## Client JKS - testadmin
 
@@ -412,9 +412,45 @@ keytool -list -v -keystore $TUTORIAL_HOME/kafka.client.testadmin.keystore.jks -s
 
 keytool -keystore $TUTORIAL_HOME/kafka.client.truststore.jks -alias CARoot -import -file $TUTORIAL_HOME/externalCacerts.pem -storepass pass123  -noprompt
 
-keytool -keystore $TUTORIAL_HOME/kafka.client.truststore.jks -alias Ingress -import -file $TUTORIAL_HOME/ingress-server.pem -storepass pass123  -noprompt
-
 keytool -list -v -keystore $TUTORIAL_HOME/kafka.client.truststore.jks -storepass pass123
+```
+
+## Client Certificate - testadmin
+
+``` 
+openssl x509 \
+  -req \
+  -in $TUTORIAL_HOME/testadmin.csr \
+  -CA  $TUTORIAL_HOME/ingress-server.pem \
+  -CAkey $TUTORIAL_HOME/ingress-server-key.pem \
+  -CAcreateserial \
+  -days 365 \
+  -out $TUTORIAL_HOME/testadmin.ingress.crt 
+
+openssl x509 -in $TUTORIAL_HOME/testadmin.ingress.crt -text -noout  
+```
+
+## Client JKS - testadmin - ingress
+```
+
+rm client.ingress.p12
+openssl pkcs12 -export -in $TUTORIAL_HOME/testadmin.ingress.crt \
+   -inkey $TUTORIAL_HOME/testadmin.key \
+   -name testadmin \
+   -passout pass:pass123 \
+   > client.ingress.p12
+
+rm $TUTORIAL_HOME/kafka.client.testadmin.keystore.ingress.jks
+keytool -importkeystore -srckeystore client.ingress.p12 -destkeystore $TUTORIAL_HOME/kafka.client.testadmin.keystore.ingress.jks -srcstoretype pkcs12 -alias testadmin -storepass pass123 -srcstorepass pass123
+
+keytool -list -v -keystore $TUTORIAL_HOME/kafka.client.testadmin.keystore.ingress.jks -storepass pass123
+
+rm $TUTORIAL_HOME/kafka.client.truststore.ingress.jks
+keytool -keystore $TUTORIAL_HOME/kafka.client.truststore.ingress.jks -alias CARoot -import -file $TUTORIAL_HOME/externalCacerts.pem -storepass pass123  -noprompt
+
+keytool -keystore $TUTORIAL_HOME/kafka.client.truststore.ingress.jks -alias Ingress -import -file $TUTORIAL_HOME/ingress-server.pem -storepass pass123  -noprompt
+
+keytool -list -v -keystore $TUTORIAL_HOME/kafka.client.truststore.ingress.jks -storepass pass123
 ```
 
 ## Client Certificate - testadmin
