@@ -406,10 +406,12 @@ openssl pkcs12 -export -in $TUTORIAL_HOME/testadmin.crt \
    -passout pass:pass123 \
    > client.p12
 
+rm $TUTORIAL_HOME/kafka.client.testadmin.keystore.jk
 keytool -importkeystore -srckeystore client.p12 -destkeystore $TUTORIAL_HOME/kafka.client.testadmin.keystore.jks -srcstoretype pkcs12 -alias testadmin -storepass pass123 -srcstorepass pass123
 
 keytool -list -v -keystore $TUTORIAL_HOME/kafka.client.testadmin.keystore.jks -storepass pass123
 
+rm $TUTORIAL_HOME/kafka.client.truststore.jks
 keytool -keystore $TUTORIAL_HOME/kafka.client.truststore.jks -alias CARoot -import -file $TUTORIAL_HOME/externalCacerts.pem -storepass pass123  -noprompt
 
 keytool -list -v -keystore $TUTORIAL_HOME/kafka.client.truststore.jks -storepass pass123
@@ -427,6 +429,7 @@ openssl x509 \
   -days 365 \
   -out $TUTORIAL_HOME/testadmin.ingress.crt 
 
+rm $TUTORIAL_HOME/testadmin.ingress.crt
 openssl x509 -in $TUTORIAL_HOME/testadmin.ingress.crt -text -noout  
 ```
 
